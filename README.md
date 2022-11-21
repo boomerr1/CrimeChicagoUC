@@ -2,6 +2,7 @@
 A machine learning model to predict criminal activity in the city Chicago.
 
 Data:
+
 [Chicago crime data](https://data.cityofchicago.org/Public-Safety/Crimes-One-year-prior-to-present/x2n5-8w5q/data)
 
 [Light intensity map](https://www.nasa.gov/sites/default/files/thumbnails/image/26247384716_9281df96cc_o.jpg)
