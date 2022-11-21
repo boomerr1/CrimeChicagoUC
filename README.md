@@ -8,3 +8,10 @@ A machine learning model to predict criminal activity in the city Chicago.
 \href{https://www.visualcrossing.com/weather/weather-data-services}{Weather data}
 
 \href{https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Neighborhoods/bbvz-uum9}{Shapefile}
+
+
+Roadmap:
+1. Recreate the model for crime prediction in Chicago
+1. Add and preprocess only a subset (most important) data
+2. Evaluate the model
+3. Add more data that might improve accuracy
