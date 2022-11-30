@@ -1,0 +1,8 @@
+name: crime
+dependencies:
+  - geopandas
+  - python
+  - numpy
+  - pip
+  - matplotlib
+  - seaborn
