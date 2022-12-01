@@ -27,22 +27,20 @@ path = 'data\shapefile\geo_export.shp'
 chiraq = gpd.read_file(path)
 chiraq = chiraq[chiraq['pri_neigh'] != "O'Hare"]
 geom = chiraq.dissolve()['geometry'].values[0]
+print(geom.bounds)
 
+# grid = partition(geom, 5, 3)
 
-grid = partition(geom, 5, 3)
+# fig, ax = plt.subplots(figsize=(8, 8))
+# chiraq.boundary.plot(ax=ax, edgecolor='black')
+# gpd.GeoSeries(grid).boundary.plot(ax=ax, edgecolor='red')
+# plt.title('Chicago Grid for sliding window (2x2) LSTM')
+# # hide ticks
+# plt.xticks([]),plt.yticks([])
 
-fig, ax = plt.subplots(figsize=(8, 8))
-chiraq.boundary.plot(ax=ax, edgecolor='black')
-gpd.GeoSeries(grid).boundary.plot(ax=ax)
-plt.title('Chicago Grid for sliding window (2x2) LSTM')
-# hide ticks
-plt.xticks([]),plt.yticks([])
-
-im_path = "data\officelens_sample.jpg"
+im_path = "chicago_night_processed.png"
 
 im = Image.open(im_path)
-im = im.convert('L')
-# im = im.rotate(-90+11)
-# im = ImageChops.offset(im, 1050, -260)
-plt.imshow(im, extent=[-87.940, -87.524, 41.644, 42.023], alpha=0.5)
+
+plt.imshow(im, alpha=0.5)
 plt.show()
