@@ -13,7 +13,8 @@ Data:
 
 
 Roadmap:
-1. Recreate the model for crime prediction in Chicago
-1. Add and preprocess only a subset (most important) data
-2. Evaluate the model
-3. Add more data that might improve accuracy
+- [ ] Recreate the model for crime prediction in Chicago
+- [ ] Add and preprocess only a subset (most important) data
+    - [ ] Align sattelite image with shapefile
+- [ ] Evaluate the model
+- [ ] Add more data that might improve accuracy
