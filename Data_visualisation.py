@@ -43,34 +43,22 @@ print(month_crime_df.shape)
 crs="EPSG:4326"
 gdf = gpd.GeoDataFrame(month_crime_df, geometry=gpd.points_from_xy(month_crime_df.Longitude, month_crime_df.Latitude),
     crs=crs)
-
-# gdf.plot(markersize=.1, figsize=(8, 8))
-# plt.show()
-
-# Plot crime locations
-# chicago.plot(ax=ax, edgecolor='black')
-# plt.title("Chicago")
-# ax.axis('off')
-# plt.show()
-
+print(gdf.head())
 
 xmin, ymin, xmax, ymax = gdf.total_bounds
 n_cells=50
 cell_size = (xmax-xmin)/n_cells
 grid_cells = []
-for x0 in np.arange(xmin, xmax+cell_size, cell_size ):
+for x0 in np.arange(xmin, xmax+cell_size, cell_size):
     for y0 in np.arange(ymin, ymax+cell_size, cell_size):
         x1 = x0-cell_size
         y1 = y0+cell_size
         grid_cells.append(shapely.geometry.box(x0, y0, x1, y1))
 cell = gpd.GeoDataFrame(grid_cells, columns=['geometry'], crs=crs)
 
-
-# ax = gdf.plot(markersize=.1, figsize=(12, 8))
-# cell.plot(ax=ax, facecolor="none", edgecolor='grey')
-
 merged = gpd.sjoin(gdf, cell, how='left', predicate='within').dropna()
 print(merged.head())
+print(merged.shape)
 merged['n_crimes'] = 0
 dissolve = merged.dissolve(by="index_right", aggfunc="count")
 print(dissolve.head())
@@ -78,8 +66,12 @@ cell.loc[dissolve.index, 'n_crimes'] = dissolve.n_crimes.values
 print(cell.head())
 
 path = 'data/shapefile/geo_export.shp'
+print(cell.head())
 ax = cell.plot(column='n_crimes', figsize=(12, 8), cmap='jet', vmax=5000, edgecolor="grey")
 chicago = gpd.read_file(path)
 chicago.to_crs(cell.crs).plot(ax=ax, color='none', edgecolor='black')
 ax.axis('off')
+
+gdf.plot(ax=ax, markersize=.1, figsize=(12, 8))
+
 plt.show()
