@@ -28,7 +28,6 @@ print(mask)
 # lookback = 7
 # batch_size = 32
 
-
 # train_gen = TimeseriesGenerator(
 #     data,
 #     targets,
@@ -48,4 +47,4 @@ print(mask)
 # model.add.Conv1D(32, 5, activation='relu')
 # model.add.Multiply(mask)
 
-# model.compile(optimizer='adam', loss='cross-entropy', metrics=['accuracy'])  
+# model.compile(optimizer='adam', loss='cross-entropy', metrics=['accuracy'])
