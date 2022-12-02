@@ -33,13 +33,14 @@ crs = "EPSG:4326"
 gdf = gpd.GeoDataFrame(month_crime_df, geometry=gpd.points_from_xy(month_crime_df.Longitude, month_crime_df.Latitude), crs=crs)
 
 xmin, ymin, xmax, ymax = chicago.total_bounds
-n_cells=200
-cell_size = (xmax-xmin)/n_cells
+n_x_cells = 100
+x_cell_size = (xmax - xmin) / n_x_cells
+y_cell_size = round(((ymax - ymin)/(xmax - xmin))*n_x_cells)
 grid_cells = []
-for x0 in np.arange(xmin, xmax+cell_size, cell_size):
-    for y0 in np.arange(ymin, ymax+cell_size, cell_size):
-        x1 = x0-cell_size
-        y1 = y0+cell_size
+for x0 in np.arange(xmin, xmax+x_cell_size, x_cell_size):
+    for y0 in np.arange(ymin, ymax+y_cell_size, y_cell_size):
+        x1 = x0-x_cell_size
+        y1 = y0+y_cell_size
         box = shapely.geometry.box(x0, y0, x1, y1)
         if chicago.intersection(box).any():
             grid_cells.append(box)
@@ -51,7 +52,8 @@ dissolve = merged.dissolve(by="index_right", aggfunc="count")
 cell['n_crimes'] = 0
 cell.loc[dissolve.index, 'n_crimes'] = dissolve.n_crimes.values
 
-ax = cell.plot(column='n_crimes', figsize=(12, 8), vmax=30, cmap='jet', edgecolor=None)
+vmax = cell.n_crimes.mean() + 2*cell.n_crimes.std()
+ax = cell.plot(column='n_crimes', figsize=(12, 8), vmax=vmax, cmap='jet', edgecolor=None)
 chicago.plot(ax=ax, color='none', edgecolor='black')
 ax.axis('off')
 print('Done.')
