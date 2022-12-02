@@ -1,6 +1,6 @@
 name: crime
 dependencies:
-  - geopandas
+  - geopandas=0.12.1
   - python
   - numpy
   - pip
