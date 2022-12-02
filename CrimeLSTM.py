@@ -10,24 +10,24 @@ chicago = gpd.read_file(path)
 chicago = chicago.dissolve()
 
 xmin, ymin, xmax, ymax = chicago.total_bounds
-n_x_cells = 100
+n_x_cells = 50
 x_cell_size = (xmax - xmin) / n_x_cells
-y_cell_size = round(((ymax - ymin)/(xmax - xmin))*n_x_cells)
-mask = np.ones((n_x_cells, n_x_cells))
+n_y_cells = round(((xmax - xmin)/(ymax - ymin))*n_x_cells)
+y_cell_size = (ymax - ymin) / n_y_cells
+mask = np.ones((n_y_cells, n_x_cells))
 grid = {"mask":[], "geometry":[]}
-for i in range(mask.shape[0]):
-    x0 = i * x_cell_size + xmin
-    x1 = x0 + x_cell_size
-    for j in range(mask.shape[1]):
-        y0 = j * y_cell_size + ymin
-        y1 = y0 + y_cell_size
+x_arange = np.arange(xmin, xmax+x_cell_size, x_cell_size)
+y_arange = np.arange(ymin, ymax+y_cell_size, y_cell_size)
+for i, y0 in zip(range(n_y_cells-1, -1, -1), y_arange):
+    for j, x0 in zip(range(n_x_cells), x_arange):
+        x1 = x0-x_cell_size
+        y1 = y0+y_cell_size
         box = shapely.geometry.box(x0, y0, x1, y1)
         if not chicago.intersection(box).any():
-            mask[-j-1,i] = 0
-            grid["mask"].append(0)
-        else:
-            grid["mask"].append(1)
-        grid["geometry"].append(box)
+            mask[i,j] = 0
+
+# Data laden
+# Stap 1: s
 
 # lookback = 7
 # batch_size = 32
@@ -46,9 +46,9 @@ for i in range(mask.shape[0]):
 # )
 
 
-# model = Sequential()
-# model.add(layers.ConvLSTM2D(filters=32, kernel_size=(3, 3), activation='relu', input_shape=(None, 1, 1, 1)))
-# model.add.Conv1D(32, 5, activation='relu')
-# model.add.Multiply(mask)
+model = Sequential()
+model.add(layers.ConvLSTM2D(filters=32, kernel_size=(3, 3), activation='relu', input_shape=(None, 1, 1, 1)))
+model.add.Conv1D(32, 5, activation='relu')
+model.add.Multiply(mask)
 
-# model.compile(optimizer='adam', loss='cross-entropy', metrics=['accuracy'])
+model.compile(optimizer='adam', loss='cross-entropy', metrics=['accuracy'])
