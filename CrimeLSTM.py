@@ -13,17 +13,21 @@ xmin, ymin, xmax, ymax = chicago.total_bounds
 n_x_cells = 100
 x_cell_size = (xmax - xmin) / n_x_cells
 y_cell_size = round(((ymax - ymin)/(xmax - xmin))*n_x_cells)
-mask = []
-x_arange = np.arange(xmin, xmax+x_cell_size, x_cell_size)
-y_arange = np.arange(ymin, ymax+y_cell_size, y_cell_size)
-for xi, x0 in zip(range(len(x_arange)), x_arange):
-    for yi, y0 in zip(range(len(y_arange)), y_arange):
-        x1 = x0-x_cell_size
-        y1 = y0+y_cell_size
+mask = np.ones((n_x_cells, n_x_cells))
+grid = {"mask":[], "geometry":[]}
+for i in range(mask.shape[0]):
+    x0 = i * x_cell_size + xmin
+    x1 = x0 + x_cell_size
+    for j in range(mask.shape[1]):
+        y0 = j * y_cell_size + ymin
+        y1 = y0 + y_cell_size
         box = shapely.geometry.box(x0, y0, x1, y1)
         if not chicago.intersection(box).any():
-            mask.append((xi,yi))
-print(mask)
+            mask[-j-1,i] = 0
+            grid["mask"].append(0)
+        else:
+            grid["mask"].append(1)
+        grid["geometry"].append(box)
 
 # lookback = 7
 # batch_size = 32
