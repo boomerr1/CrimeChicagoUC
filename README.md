@@ -21,6 +21,28 @@ Data:
 Roadmap:
 - [ ] Recreate the model for crime prediction in Chicago
 - [ ] Add and preprocess only a subset (most important) data
-    - [ ] Align sattelite image with shapefile
-- [ ] Evaluate the model
+    - ~~[ ] Align sattelite image with shapefile~~
+    - [x] create mask to delete predictions outside of Chicago.
+    - [ ] Use the last 10 years (2011-2021)
+    - [ ] determine grid cell coordinate precizer
+    - [ ] (wtf) de prediction predict niks op de kustlijn
+- [ ] Evaluate the model: MSE & RMSE
+    - [ ] Baseline historical average
 - [ ] Add more data that might improve accuracy
+
+# Log
+30-11-2022 21:11:
+In photoshop de raw sattelite image bewerken en alignen met google maps screenshot:
+    - perspective warp 
+    - rotatie
+    - breedte kleiner met stretch
+    - lengte iets kleiner met stretch.
+Mislukt so far, word op zijspoor gezet
+
+5-12-2022 13:00
+LSTM inputs proberen goed te krijgen als time series met de juiste shape en size.
+
+5-12-2022 20:04
+train set:  2011 - 2020
+test set:   2021
+Baseline: historical average elke dag in het hele test set jaar hetzelfde.
