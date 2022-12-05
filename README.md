@@ -16,6 +16,8 @@ Data:
 
 [Police Station Locations](https://data.cityofchicago.org/Public-Safety/Police-Stations/z8bn-74gv)
 
+[Crime severity](https://www.ons.gov.uk/peoplepopulationandcommunity/crimeandjustice/datasets/crimeseverityscoreexperimentalstatistics)
+
 Roadmap:
 - [ ] Recreate the model for crime prediction in Chicago
 - [ ] Add and preprocess only a subset (most important) data
