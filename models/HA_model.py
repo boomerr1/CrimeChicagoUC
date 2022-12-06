@@ -27,7 +27,8 @@ for i, y0 in zip(range(n_y_cells-1, -1, -1), y_arange):
 train_data = np.load('../data/train_data.npy')
 test_data = np.load('../data/test_data.npy')
 
-historical_average = np.mean(train_data, axis=0)
+# HA: global average
+historical_average = np.mean(train_data[-365:], axis=0)
 
 historical_average *= mask
 plt.imshow(historical_average, vmax=2, cmap='jet')
@@ -35,5 +36,23 @@ plt.axis('off')
 plt.show()
 
 mse = np.nanmean(np.square(np.subtract(test_data, np.repeat([historical_average], len(test_data), axis=0))))
-print('MSE: ', mse.mean())
-print('RMSE: ', np.sqrt(mse).mean())
+print(f'HA global average - MSE: {mse.mean():.3f}')
+print(f'HA global average - RMSE: {np.sqrt(mse).mean():.3f}')
+
+# HA: weekday average
+week_day_indices = np.array([[j for j in range(i, len(train_data), 7)] for i in range(0, 7, 1)], dtype=object)
+historical_week_average = np.array([np.mean(train_data[weekday_mask][-52:], axis=0) for weekday_mask in week_day_indices])
+weekday_mask = week_day_indices[0]
+historical_week_average *= mask
+
+start_test_weekday = np.argmax([np.max(indices) for indices in week_day_indices]) + 1
+historical_week_average = np.roll(historical_week_average, 7-start_test_weekday, axis=0)
+historical_week_average = np.repeat(historical_week_average, len(test_data)//7+1, axis=0)[:len(test_data)]
+
+plt.imshow(historical_week_average[0], vmax=2, cmap='jet')
+plt.axis('off')
+plt.show()
+
+mse = np.nanmean(np.square(np.subtract(test_data, historical_week_average)))
+print(f'HA weekday average - MSE: {mse.mean():.3f}')
+print(f'HA weekday average - RMSE: {np.sqrt(mse).mean():.3f}')
