@@ -18,10 +18,12 @@ A machine learning model to predict criminal activity in the city Chicago.
 
 [Crime severity](https://www.ons.gov.uk/peoplepopulationandcommunity/crimeandjustice/datasets/crimeseverityscoreexperimentalstatistics)
 
+[Poverty Indicators](https://data.cityofchicago.org/Health-Human-Services/Poverty-Indicators-by-COmmunity-Area/c44j-fgcy/data)
+
 # Roadmap:
 - [ ] Recreate the model for crime prediction in Chicago
 - [ ] Add and preprocess only a subset (most important) data
-    - ~~[ ] Align sattelite image with shapefile~~
+    - [x] ~~ Align sattelite image with shapefile~~
     - [x] create mask to delete predictions outside of Chicago.
     - [x] Use the last 10 years (2011-2021)
     - [ ] determine grid cell coordinate more precise ((wtf) de prediction predict niks op de kustlijn)

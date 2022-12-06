@@ -81,16 +81,18 @@ train_gen = TimeseriesGenerator(
 # of 14
 
 
+# Dit is ook een mogelijke interpretatie van de paper
 inputs = Input(shape=(lookback, 55, 50, 1))
 mask = Input(shape=(mask.shape[0], mask.shape[1], 1))
 convlstm1 = layers.ConvLSTM2D(filters=128, kernel_size=(3, 3), padding='same', activation='tanh', return_sequences=True)(inputs)
 bathnorm1 = layers.BatchNormalization()(convlstm1)
 convlstm2 = layers.ConvLSTM2D(filters=128, kernel_size=(3, 3), padding='same', activation='tanh', return_sequences=True)(bathnorm1)
-batchnorm2 = layers.BatchNormalization()(convlstm2)
-convlstm3 = layers.ConvLSTM2D(filters=128, kernel_size=(3, 3), padding='same', activation='tanh', return_sequences=True)(batchnorm2)
+# batchnorm2 = layers.BatchNormalization()(convlstm2)
+convlstm3 = layers.ConvLSTM2D(filters=128, kernel_size=(3, 3), padding='same', activation='tanh', return_sequences=True)(inputs)
 batchnorm3 = layers.BatchNormalization()(convlstm3)
-convlstm4 = layers.ConvLSTM2D(filters=128, kernel_size=(3, 3), padding='same', activation='tanh', return_sequences=True)(batchnorm3)
-conv2d = layers.Conv2D(filters=1, kernel_size=(1,1), padding="same", activation='tanh')(convlstm4)
+convlstm4 = layers.ConvLSTM2D(filters=128, kernel_size=(3, 3), padding='same', activation='tanh', return_sequences=True)(convlstm3)
+concatenation = layers.concatenate([convlstm2, convlstm4])
+conv2d = layers.Conv2D(filters=1, kernel_size=(1,1), padding="same", activation='tanh')(concatenation)
 outputs = layers.Multiply()([conv2d, mask])
 
 model = Model(inputs=[inputs,mask], outputs=outputs)

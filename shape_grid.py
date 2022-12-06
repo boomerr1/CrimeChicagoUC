@@ -18,29 +18,22 @@ def grid_bounds(geom, nx, ny):
 
 
 def partition(geom, nx, ny):
-    prepared_geom = prep(geom)
-    grid = list(filter(prepared_geom.intersects, grid_bounds(geom, nx, ny)))
-    return grid
+    grid = prep(geom)
+    # grid = list(filter(grid.intersects, grid_bounds(geom, nx, ny)))
+    return grid_bounds(geom, nx, ny)
 
-
+crs = "EPSG:4326"
 path = 'data\shapefile\geo_export.shp'
 chiraq = gpd.read_file(path)
-chiraq = chiraq[chiraq['pri_neigh'] != "O'Hare"]
+# chiraq = chiraq[chiraq['pri_neigh'] != "O'Hare"]
 geom = chiraq.dissolve()['geometry'].values[0]
-print(geom.bounds)
 
-# grid = partition(geom, 5, 3)
+grid = partition(geom, 55//15, 50//15)
 
-# fig, ax = plt.subplots(figsize=(8, 8))
-# chiraq.boundary.plot(ax=ax, edgecolor='black')
-# gpd.GeoSeries(grid).boundary.plot(ax=ax, edgecolor='red')
-# plt.title('Chicago Grid for sliding window (2x2) LSTM')
-# # hide ticks
-# plt.xticks([]),plt.yticks([])
-
-im_path = "chicago_night_processed.png"
-
-im = Image.open(im_path)
-
-plt.imshow(im, alpha=0.5)
+fig, ax = plt.subplots(figsize=(8, 8))
+chiraq.plot(ax=ax, edgecolor='black')
+gpd.GeoSeries(grid, crs=crs).boundary.plot(ax=ax, edgecolor='red')
+plt.title("Windows for Conv-LSTM's")
+# hide ticks
+plt.xticks([]),plt.yticks([])
 plt.show()
