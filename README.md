@@ -1,7 +1,7 @@
 # CrimePredictionChicago
 A machine learning model to predict criminal activity in the city Chicago.
 
-Data:
+## Data:
 
 [Chicago crime data](https://data.cityofchicago.org/Public-Safety/Crimes-One-year-prior-to-present/x2n5-8w5q/data)
 
@@ -18,17 +18,24 @@ Data:
 
 [Crime severity](https://www.ons.gov.uk/peoplepopulationandcommunity/crimeandjustice/datasets/crimeseverityscoreexperimentalstatistics)
 
-Roadmap:
+# Roadmap:
 - [ ] Recreate the model for crime prediction in Chicago
 - [ ] Add and preprocess only a subset (most important) data
     - ~~[ ] Align sattelite image with shapefile~~
     - [x] create mask to delete predictions outside of Chicago.
-    - [ ] Use the last 10 years (2011-2021)
-    - [ ] determine grid cell coordinate precizer
-    - [ ] (wtf) de prediction predict niks op de kustlijn
+    - [x] Use the last 10 years (2011-2021)
+    - [ ] determine grid cell coordinate more precise ((wtf) de prediction predict niks op de kustlijn)
 - [ ] Evaluate the model: MSE & RMSE
-    - [ ] Baseline historical average
+    - [x] Baseline historical average
+    - [ ] LSTM
 - [ ] Add more data that might improve accuracy
+    - [ ] street and alley lights
+    - [ ] poverty
+    - [ ] police station locations
+    - [ ] weather
+      - [ ] convert to (ndays,55,50) sized array
+    - [ ] severity of crimes
+      - [x] column of severity to be used as weight for the average
 
 # Log
 30-11-2022 21:11:
