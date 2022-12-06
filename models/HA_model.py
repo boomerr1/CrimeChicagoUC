@@ -22,17 +22,18 @@ for i, y0 in zip(range(n_y_cells-1, -1, -1), y_arange):
         y1 = y0+y_cell_size
         box = shapely.geometry.box(x0, y0, x1, y1)
         if not chicago.intersection(box).any():
-            mask[i,j] = -1
+            mask[i,j] = np.nan
 
 train_data = np.load('../data/train_data.npy')
 test_data = np.load('../data/test_data.npy')
 
 historical_average = np.mean(train_data, axis=0)
 
-historical_average += mask
-
-cmap = cm.jet
-cmap.set_bad(color='white')
-plt.imshow(historical_average, vmax=3, cmap=cmap)
+historical_average *= mask
+plt.imshow(historical_average, vmax=2, cmap='jet')
 plt.axis('off')
 plt.show()
+
+mse = np.nanmean(np.square(np.subtract(test_data, np.repeat([historical_average], len(test_data), axis=0))))
+print('MSE: ', mse.mean())
+print('RMSE: ', np.sqrt(mse).mean())
