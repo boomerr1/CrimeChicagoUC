@@ -31,7 +31,7 @@ A machine learning model to predict criminal activity in the city Chicago.
     - [x] LSTM
 - [ ] Add more data that might improve accuracy
     - [ ] street and alley lights
-    - [ ] poverty
+    - [ ] demographic data
     - [x] weather
       - [x] convert to (ndays,55,50) sized array
     - [x] severity of crimes
