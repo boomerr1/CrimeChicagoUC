@@ -23,7 +23,7 @@ def partition(geom, nx, ny):
     return grid_bounds(geom, nx, ny)
 
 crs = "EPSG:4326"
-path = 'data\shapefile\geo_export.shp'
+path = '../data\shapefile\geo_export.shp'
 chiraq = gpd.read_file(path)
 # chiraq = chiraq[chiraq['pri_neigh'] != "O'Hare"]
 geom = chiraq.dissolve()['geometry'].values[0]
