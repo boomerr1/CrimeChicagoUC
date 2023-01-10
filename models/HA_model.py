@@ -36,8 +36,8 @@ plt.axis('off')
 plt.show()
 
 mse = np.nanmean(np.square(np.subtract(test_data, np.repeat([historical_average], len(test_data), axis=0))))
-print(f'HA global average - MSE: {mse.mean():.3f}')
-print(f'HA global average - RMSE: {np.sqrt(mse).mean():.3f}')
+print(f'HA global average - MSE: {mse.mean():.4f}')
+print(f'HA global average - RMSE: {np.sqrt(mse).mean():.4f}')
 
 # HA: weekday average
 week_day_indices = np.array([[j for j in range(i, len(train_data), 7)] for i in range(0, 7, 1)], dtype=object)
@@ -54,5 +54,5 @@ plt.axis('off')
 plt.show()
 
 mse = np.nanmean(np.square(np.subtract(test_data, historical_week_average)))
-print(f'HA weekday average - MSE: {mse.mean():.3f}')
-print(f'HA weekday average - RMSE: {np.sqrt(mse).mean():.3f}')
+print(f'HA weekday average - MSE: {mse.mean():.4f}')
+print(f'HA weekday average - RMSE: {np.sqrt(mse).mean():.4f}')

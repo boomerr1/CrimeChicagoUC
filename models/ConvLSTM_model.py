@@ -72,7 +72,7 @@ convlstm4 = layers.ConvLSTM2D(filters=128, kernel_size=(3, 3), padding='same', a
 
 # Concatenate outputs of two stacks
 concatenation = layers.concatenate([convlstm2, convlstm4])
-outputs = layers.Conv2D(filters=1, kernel_size=1, padding="same", activation='tanh')(concatenation)
+outputs = layers.Conv2D(filters=1, kernel_size=1, padding="same", activation='linear')(concatenation)
 
 # Create the model
 model = Model(inputs=inputs, outputs=outputs)
@@ -88,7 +88,7 @@ model.fit(train_gen, epochs=1)
 test_pred = model.predict(test_gen)
 test_pred *= mask
 
-np.save('../data/final_pred_ConvLSTM_Cr.npy', test_pred)
+np.save('../data/final_pred_ConvLSTM_Cr_linear.npy', test_pred)
 
 test_X_crimes_only[-1][mask == False] = np.nan
 
