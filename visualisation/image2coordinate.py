@@ -14,7 +14,7 @@ def coord_to_pixel(pointLon, pointLat, im, x_offset=0, y_offset=0):
     return x+x_offset, y+y_offset
 
 
-im_path = "data\chicago_night_processed.png"
+im_path = "../data\chicago_night_processed.png"
 geo_coord_center = -87.66552272954672, 41.89016056612478
 
 im = Image.open(im_path)
